@@ -49,7 +49,7 @@ public class MahasiswaService {
         return MahasiswaMapper.toDTO(mahasiswaRepository.findById(id).orElseThrow());
     }
 
-    public List<MahasiswaResponseDTO> getMahasiswaByQuery(String query){
+    public List<MahasiswaResponseDTO> findByNameQuery(String query){
         return mahasiswaRepositoryJDBC.findByNameQuery(query).stream()
                 .map(MahasiswaMapper::toDTO)
                 .toList();
