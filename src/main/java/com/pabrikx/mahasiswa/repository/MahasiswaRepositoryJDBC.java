@@ -16,11 +16,11 @@ public class MahasiswaRepositoryJDBC {
 
     public List<Mahasiswa> findByNameQuery(String name) {
         String sql = """
-                SELECT m.id as m_id, m.name as m_name, m.nim as m_nim,
-                    j.id as j_id, j.name as j_name
+                SELECT m.id as m_id, m.nama as m_name, m.nim as m_nim,
+                    j.id as j_id, j.nama as j_name
                 FROM mahasiswa m
                 JOIN jurusan j ON m.jurusan_id = j.id
-                WHERE m.name ILIKE ?
+                WHERE m.nama ILIKE ?
             """;
 
         return jdbcTemplate.query(sql, ps -> {

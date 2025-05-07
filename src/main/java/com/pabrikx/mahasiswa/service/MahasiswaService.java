@@ -35,6 +35,8 @@ public class MahasiswaService {
                 .nim(request.getNim())
                 .jurusan(jurusan)
                 .build();
+
+        mahasiswaRepository.save(mahasiswa);
     }
 
     public List<MahasiswaResponseDTO> findAll(){
