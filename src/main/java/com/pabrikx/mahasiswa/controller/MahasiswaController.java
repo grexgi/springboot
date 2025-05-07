@@ -5,6 +5,7 @@ import com.pabrikx.mahasiswa.dto.MahasiswaRequestDTO;
 import com.pabrikx.mahasiswa.dto.MahasiswaResponseDTO;
 import com.pabrikx.mahasiswa.service.MahasiswaService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class MahasiswaController {
     private MahasiswaService mahasiswaService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<String>> create(@RequestBody MahasiswaRequestDTO request){
+    public ResponseEntity<ApiResponse<String>> create(@RequestBody @Valid MahasiswaRequestDTO request){
         mahasiswaService.create(request);
         return ResponseEntity.ok(new ApiResponse<>(true, "Success", "Success create mahasiswa " + request.toString()));
     }
@@ -48,7 +49,7 @@ public class MahasiswaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<String>> updateById(@PathVariable Long id, @RequestBody MahasiswaRequestDTO request){
+    public ResponseEntity<ApiResponse<String>> updateById(@PathVariable Long id, @RequestBody @Valid MahasiswaRequestDTO request){
         mahasiswaService.updateById(id, request);
         return ResponseEntity.ok(new ApiResponse<>(true, "Success", "Success update mahasiswa with id " + id + " as " + request.toString()));
     }

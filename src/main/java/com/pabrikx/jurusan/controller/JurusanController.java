@@ -4,6 +4,7 @@ import com.pabrikx.common.response.ApiResponse;
 import com.pabrikx.jurusan.dto.JurusanRequestDTO;
 import com.pabrikx.jurusan.dto.JurusanResponseDTO;
 import com.pabrikx.jurusan.service.JurusanService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class JurusanController {
     private JurusanService jurusanService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<String>> create(@RequestBody JurusanRequestDTO request) {
+    public ResponseEntity<ApiResponse<String>> create(@RequestBody @Valid JurusanRequestDTO request) {
             jurusanService.createJurusan(request);
             return ResponseEntity.ok(new ApiResponse<>(true, "Success", request.toString()));
     }
@@ -51,7 +52,7 @@ public class JurusanController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<String>> update(@PathVariable Long id, @RequestBody JurusanRequestDTO request){
+    public ResponseEntity<ApiResponse<String>> update(@PathVariable Long id, @RequestBody @Valid JurusanRequestDTO request){
         jurusanService.update(id, request);
         return ResponseEntity.ok(new ApiResponse<>(true, "success", "Jurusan with ID " + id + " updated successfully" + request.toString()));
     }
