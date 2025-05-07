@@ -1,12 +1,10 @@
 package com.pabrikx.jurusan.controller;
 
+import com.pabrikx.common.response.ApiResponse;
 import com.pabrikx.jurusan.dto.JurusanRequestDTO;
 import com.pabrikx.jurusan.dto.JurusanResponseDTO;
-import com.pabrikx.jurusan.model.Jurusan;
 import com.pabrikx.jurusan.service.JurusanService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,72 +18,42 @@ public class JurusanController {
     private JurusanService jurusanService;
 
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody JurusanRequestDTO request) {
-        try {
+    public ResponseEntity<ApiResponse<String>> create(@RequestBody JurusanRequestDTO request) {
             jurusanService.createJurusan(request);
-            return ResponseEntity.ok("Success");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+            return ResponseEntity.ok(new ApiResponse<>(true, "Success", request.toString()));
     }
 
     @GetMapping
-    public ResponseEntity<List<JurusanResponseDTO>> findAll() {
-        try{
-            return ResponseEntity.ok(jurusanService.findAll());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public ResponseEntity<ApiResponse<List<JurusanResponseDTO>>> findAll() {
+        return ResponseEntity.ok(new ApiResponse<>(true, "Success", jurusanService.findAll()));
     }
 
     @GetMapping("/id={id}")
-    public ResponseEntity<JurusanResponseDTO> findById(@PathVariable Long id) {
-        try{
-            return ResponseEntity.ok(jurusanService.findById(id));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public ResponseEntity<ApiResponse<JurusanResponseDTO>> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(new ApiResponse<>(true, "Success", jurusanService.findById(id)));
     }
 
     @GetMapping("/name={nama}")
-    public ResponseEntity<JurusanResponseDTO> findByNama(@PathVariable String nama) {
-        try{
-            return ResponseEntity.ok(jurusanService.findByNama(nama));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public ResponseEntity<ApiResponse<JurusanResponseDTO>> findByNama(@PathVariable String nama) {
+        return ResponseEntity.ok(new ApiResponse<>(true, "Success", jurusanService.findByNama(nama)));
     }
 
     @GetMapping("/query={query}")
-    public ResponseEntity<List<JurusanResponseDTO>> findByNamaContain(@PathVariable String query) {
-        try{
-            return ResponseEntity.ok(jurusanService.findByNamaContain(query));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public ResponseEntity<ApiResponse<List<JurusanResponseDTO>>> findByNamaContain(@PathVariable String query) {
+        return ResponseEntity.ok(new ApiResponse<>(true, "Success", jurusanService.findByNamaContain(query)));
     }
 
 //    This code is not handling referenced row on other table.
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteById(@PathVariable Long id) {
-        try{
-            jurusanService.deleteById(id);
-            return ResponseEntity.ok("Success delete Jurusan " + id);
-        }catch (EntityNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete");
-        }
+    public ResponseEntity<ApiResponse<String>> deleteById(@PathVariable Long id) {
+        jurusanService.deleteById(id);
+        return ResponseEntity.ok(new ApiResponse<>(true, "success", "Jurusan with ID " + id + " deleted successfully"));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable Long id, @RequestBody JurusanRequestDTO request){
-        try{
-            jurusanService.update(id, request);
-            return ResponseEntity.ok("Update berhasil");
-        }catch (Exception e){
-            throw new RuntimeException(e);
-        }
+    public ResponseEntity<ApiResponse<String>> update(@PathVariable Long id, @RequestBody JurusanRequestDTO request){
+        jurusanService.update(id, request);
+        return ResponseEntity.ok(new ApiResponse<>(true, "success", "Jurusan with ID " + id + " updated successfully" + request.toString()));
     }
 
 }
