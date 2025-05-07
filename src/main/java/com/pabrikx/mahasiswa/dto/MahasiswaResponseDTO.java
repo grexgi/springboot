@@ -1,4 +1,4 @@
-package com.pabrikx.jurusan.dto;
+package com.pabrikx.mahasiswa.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JurusanDTO {
+public class MahasiswaResponseDTO {
     Long id;
-    String jurusanNama;
+    String nama;
+    String nim;
+    String jurusan;
 }

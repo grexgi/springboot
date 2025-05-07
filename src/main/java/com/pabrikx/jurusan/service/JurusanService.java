@@ -1,6 +1,7 @@
 package com.pabrikx.jurusan.service;
 
-import com.pabrikx.jurusan.dto.JurusanDTO;
+import com.pabrikx.jurusan.dto.JurusanRequestDTO;
+import com.pabrikx.jurusan.dto.JurusanResponseDTO;
 import com.pabrikx.jurusan.mapper.JurusanMapper;
 import com.pabrikx.jurusan.model.Jurusan;
 import com.pabrikx.jurusan.repository.JurusanRepository;
@@ -16,26 +17,32 @@ public class JurusanService {
     @Autowired
     private JurusanRepository jurusanRepository;
 
-    public List<JurusanDTO> findAll(){
+    public List<JurusanResponseDTO> findAll(){
         return jurusanRepository.findAll().stream()
                 .map(JurusanMapper::toDTO)
                 .toList();
     }
 
-    public Jurusan findById(Long id) {
-        return jurusanRepository.findById(id).orElseThrow();
+    public JurusanResponseDTO findById(Long id) {
+        return JurusanMapper.toDTO(jurusanRepository.findById(id).orElseThrow());
     }
 
-    public Jurusan findByNama(String nama) {
-        return jurusanRepository.findByNama(nama).orElseThrow();
+    public JurusanResponseDTO findByNama(String nama) {
+        return JurusanMapper.toDTO(jurusanRepository.findByNama(nama).orElseThrow());
     }
 
-    public List<Jurusan> findByNamaContain(String query){
-        return jurusanRepository.findByNamaContaining(query).orElseThrow();
+    public List<JurusanResponseDTO> findByNamaContain(String query){
+        return  jurusanRepository.findByNamaContaining(query).stream()
+                .map(JurusanMapper::toDTO)
+                .toList();
     }
 
-    public Jurusan createJurusan(Jurusan jurusan){
-        return jurusanRepository.save(jurusan);
+    public void createJurusan(JurusanRequestDTO requestDTO){
+        Jurusan jurusan = Jurusan.builder()
+                .nama(requestDTO.getJurusanNama())
+                .build();
+
+        jurusanRepository.save(jurusan);
     }
 
     public void deleteById (Long id){
@@ -45,12 +52,12 @@ public class JurusanService {
         jurusanRepository.deleteById(id);
     }
 
-    public Jurusan update(Long id, Jurusan jurusan){
+    public void update(Long id, JurusanRequestDTO requestDTO){
         Jurusan newJurusan =  jurusanRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Jurusan dengan ID " + id + " tidak ditemukan."));
 
-        newJurusan.setNama(jurusan.getNama());
-        return jurusanRepository.save(newJurusan);
+        newJurusan.setNama(requestDTO.getJurusanNama());
+        jurusanRepository.save(newJurusan);
     }
 }
 

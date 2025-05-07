@@ -1,6 +1,7 @@
 package com.pabrikx.jurusan.controller;
 
-import com.pabrikx.jurusan.dto.JurusanDTO;
+import com.pabrikx.jurusan.dto.JurusanRequestDTO;
+import com.pabrikx.jurusan.dto.JurusanResponseDTO;
 import com.pabrikx.jurusan.model.Jurusan;
 import com.pabrikx.jurusan.service.JurusanService;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,12 +20,17 @@ public class JurusanController {
     private JurusanService jurusanService;
 
     @PostMapping
-    public ResponseEntity<Jurusan> create(@RequestBody Jurusan jurusan) {
-        return ResponseEntity.ok(jurusanService.createJurusan(jurusan));
+    public ResponseEntity<String> create(@RequestBody JurusanRequestDTO request) {
+        try {
+            jurusanService.createJurusan(request);
+            return ResponseEntity.ok("Success");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @GetMapping
-    public ResponseEntity<List<JurusanDTO>> findAll() {
+    public ResponseEntity<List<JurusanResponseDTO>> findAll() {
         try{
             return ResponseEntity.ok(jurusanService.findAll());
         } catch (Exception e) {
@@ -32,8 +38,8 @@ public class JurusanController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Jurusan> findById(@PathVariable Long id) {
+    @GetMapping("/id={id}")
+    public ResponseEntity<JurusanResponseDTO> findById(@PathVariable Long id) {
         try{
             return ResponseEntity.ok(jurusanService.findById(id));
         } catch (Exception e) {
@@ -41,8 +47,8 @@ public class JurusanController {
         }
     }
 
-    @GetMapping("/nama={nama}")
-    public ResponseEntity<Jurusan> findByNama(@PathVariable String nama) {
+    @GetMapping("/name={nama}")
+    public ResponseEntity<JurusanResponseDTO> findByNama(@PathVariable String nama) {
         try{
             return ResponseEntity.ok(jurusanService.findByNama(nama));
         } catch (Exception e) {
@@ -50,10 +56,10 @@ public class JurusanController {
         }
     }
 
-    @GetMapping("/q={nama}")
-    public ResponseEntity<List<Jurusan>> findByNamaContain(@PathVariable String nama) {
+    @GetMapping("/query={query}")
+    public ResponseEntity<List<JurusanResponseDTO>> findByNamaContain(@PathVariable String query) {
         try{
-            return ResponseEntity.ok(jurusanService.findByNamaContain(nama));
+            return ResponseEntity.ok(jurusanService.findByNamaContain(query));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -73,10 +79,10 @@ public class JurusanController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Jurusan> update(@PathVariable Long id, @RequestBody Jurusan jurusan){
+    public ResponseEntity<String> update(@PathVariable Long id, @RequestBody JurusanRequestDTO request){
         try{
-            var result = jurusanService.update(id, jurusan);
-            return ResponseEntity.ok(result);
+            jurusanService.update(id, request);
+            return ResponseEntity.ok("Update berhasil");
         }catch (Exception e){
             throw new RuntimeException(e);
         }

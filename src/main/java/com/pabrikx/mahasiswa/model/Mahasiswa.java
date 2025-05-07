@@ -14,12 +14,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Mahasiswa {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nama;
     private String nim;
 
     @ManyToOne
-    @JoinColumn(name = "jurusan_id")
+    @JoinColumn(name = "jurusan_id", referencedColumnName = "id")
     private Jurusan jurusan;
 }

@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface JurusanRepository extends JpaRepository<Jurusan, Long> {
     Optional<Jurusan> findByNama(String nama);
-    Optional<List<Jurusan>> findByNamaContaining(String nama);
+    List<Jurusan> findByNamaContaining(String nama);
 }
 
