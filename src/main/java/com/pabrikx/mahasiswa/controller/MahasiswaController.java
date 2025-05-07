@@ -4,15 +4,16 @@ import com.pabrikx.common.response.ApiResponse;
 import com.pabrikx.mahasiswa.dto.MahasiswaRequestDTO;
 import com.pabrikx.mahasiswa.dto.MahasiswaResponseDTO;
 import com.pabrikx.mahasiswa.service.MahasiswaService;
-import jakarta.persistence.EntityNotFoundException;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Mahasiswa", description = "CRUD Mahasiswa API")
+// we can see swagger documentation in localhost:8080/swagger-ui/index.html
 @RestController
 @RequestMapping("/api/mahasiswa")
 public class MahasiswaController {
